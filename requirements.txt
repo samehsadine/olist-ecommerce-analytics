@@ -1,0 +1,24 @@
+# Manipulation et analyse des données
+pandas
+numpy
+
+# Lecture et écriture des fichiers Parquet
+pyarrow
+
+# Connexion à SQL Server
+sqlalchemy
+pyodbc
+
+# Exploration et visualisation
+matplotlib
+seaborn
+
+# Notebooks Jupyter
+jupyterlab
+ipykernel
+
+# Gestion des variables d'environnement
+python-dotenv
+
+# Tests et validation des données
+pytest

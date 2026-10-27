@@ -1,0 +1,12 @@
+
+/data/
+
+.venv/
+
+__pycache__/
+*.pyc
+
+.env
+/commandes_dev.md
+# Fichiers Jupyter temporaires
+.ipynb_checkpoints/
