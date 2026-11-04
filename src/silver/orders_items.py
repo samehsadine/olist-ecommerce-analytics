@@ -8,27 +8,27 @@ def process_silver_orders_items():
 
     shipping_limit_date = df_orders_items["shipping_limit_date"]
 
-    nulls_avant = shipping_limit_date.isna().sum()
-    # Convertir les colonnes en datetime
+    nulls_before = shipping_limit_date.isna().sum()
+    # Convert the columns to datetime
 
     shipping_limit_date = pd.to_datetime(shipping_limit_date, errors="coerce")
 
-    # Compter les valeurs manquantes après conversion
-    nulls_apres = shipping_limit_date.isna().sum()
+    # Count missing values after conversion
+    nulls_after = shipping_limit_date.isna().sum()
 
-    # Calculer les nouvelles valeurs manquantes
-    erreurs_conversion = nulls_apres - nulls_avant
+    # Calculate the new missing values
+    conversion_errors = nulls_after - nulls_before
 
     df_orders_items["shipping_limit_date"] = shipping_limit_date
 
-    print("Erreurs de conversion :", erreurs_conversion)
+    print("Erreurs de conversion :", conversion_errors)
 
     SILVER_PARQUET_PATH.mkdir(parents=True, exist_ok=True)
 
-    # Définir le chemin du fichier Silver
+    # Define the Silver file path
     parquet_file = SILVER_PARQUET_PATH / "orders_items.parquet"
 
-    # Enregistrer le DataFrame nettoyé
+    # Save the cleaned DataFrame
     df_orders_items.to_parquet(parquet_file, index=False)
 
     print(f"Fichier Silver enregistré : {parquet_file}")

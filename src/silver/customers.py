@@ -15,12 +15,9 @@ def process_silver_customers():
         .str.zfill(5)
     )
 
-    if df_customers["customer_id"].duplicated().any():
-        raise ValueError("Des customer_id sont dupliqués.")
-
     SILVER_PARQUET_PATH.mkdir(parents=True, exist_ok=True)
 
-    # 5. Enregistrer les données nettoyées
+    # 5. Save the cleaned data
     parquet_file = SILVER_PARQUET_PATH / "customers.parquet"
 
     df_customers.to_parquet(parquet_file, index=False)

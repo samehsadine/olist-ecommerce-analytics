@@ -8,5 +8,5 @@ __pycache__/
 
 .env
 /commandes_dev.md
-# Fichiers Jupyter temporaires
+# Temporary Jupyter files
 .ipynb_checkpoints/

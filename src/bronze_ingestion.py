@@ -1,39 +1,39 @@
-from config import ACCESS_DONNEES_PATH, BRONZE_PARQUET_PATH
+from src.config import BRONZE_DATA_PATH, BRONZE_PARQUET_PATH
 import pandas as pd
 
 
 def process_bronze_orders():
 
-    # Chemin vers les fichiers CSV
-    raw_path = ACCESS_DONNEES_PATH 
+    # Path to the CSV files
+    raw_path = BRONZE_DATA_PATH 
 
-    # Rechercher tous les fichiers CSV
+    # Find all CSV files
     csv_files = sorted(raw_path.glob("*.csv"))
 
-    # Afficher le nombre de fichiers trouvés
+    # Display the number of files found
     print(f"Nombre de fichiers CSV : {len(csv_files)}")
 
-    # Parcourir les fichiers
+    # Iterate over the files
     for csv_file in csv_files:
         print(csv_file.name)
 
     BRONZE_PARQUET_PATH.mkdir(parents=True, exist_ok=True)
     
-    # Parcourir tous les fichiers CSV
+    # Iterate over all CSV files
     for csv_file in csv_files:
 
-        # Lire le fichier CSV
+        # Read the CSV file
         df = pd.read_csv(csv_file)
 
-        # Construire le nom du fichier Parquet
+        # Build the Parquet file name
         parquet_file = BRONZE_PARQUET_PATH / (
             csv_file.stem + ".parquet"
         )
 
-        # Enregistrer les données en Parquet
+        # Save the data in Parquet format
         df.to_parquet(parquet_file, index=False)
 
-        # Afficher le résultat
+        # Display the result
         print(f"Fichier : {csv_file.name}")
         print(f"Nombre de lignes : {len(df)}")
         print(f"Parquet créé : {parquet_file}")

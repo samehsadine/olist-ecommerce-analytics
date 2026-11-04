@@ -8,28 +8,47 @@ def process_silver_orders_payments():
     df_payments = pd.read_parquet(
         BRONZE_PARQUET_PATH / "olist_order_payments_dataset.parquet"
        )
+
+    # Check missing payment values
+    missing_payments = df_payments["payment_value"].isna().sum()
+
+    # Check negative payment values
+    negative_payments = (df_payments["payment_value"] < 0).sum()
+
+    # Check zero payment values
+    zero_payments = (df_payments["payment_value"] == 0).sum()
+ 
+       # Display payment quality checks
+    print("Montants manquants :", missing_payments)
+    print("Montants négatifs :", negative_payments)
+    print("Montants égaux à zéro :", zero_payments)
+    # Flag missing, negative or zero payment values
+
     df_payments["anomalie_montant"] = (
-        df_payments["payment_value"] == 0
+        df_payments["payment_value"].isna()
+        | (df_payments["payment_value"] < 0)
+        | (df_payments["payment_value"] == 0)
     )
     
-    # Signaler les versements à zéro
+
+    # Flag zero installments
     df_payments["anomalie_versement"] = (
             df_payments["payment_installments"] == 0
         )
     
-        # Signaler les moyens de paiement non définis
+        # Flag undefined payment methods
     df_payments["anomalie_type_paiement"] = (
             df_payments["payment_type"] == "not_defined"
         )
 
-            # Créer le dossier Silver s'il n'existe pas
+            # Create the Silver directory if it does not exist
     SILVER_PARQUET_PATH.mkdir(parents=True, exist_ok=True)
 
-    # Définir le chemin du fichier Silver
+    # Define the Silver file path
     parquet_file = SILVER_PARQUET_PATH / "orders_payments.parquet"
 
 
-    # Enregistrer le DataFrame nettoyé
+    # Save the cleaned DataFrame
     df_payments.to_parquet(parquet_file, index=False)
     
     print(f"Fichier silver enregistré: {parquet_file}")
