@@ -8,19 +8,19 @@ def process_silver_sellers():
             BRONZE_PARQUET_PATH / "olist_sellers_dataset.parquet"
     )
 
-    # Convertir le code postal en chaîne de 5 caractères
+    # Convert the postal code to a 5-character string
     df_sellers["seller_zip_code_prefix"] = (
     df_sellers["seller_zip_code_prefix"]
     .astype("string")
     .str.zfill(5)
     )
-    # Créer le dossier Silver s'il n'existe pas
+    # Create the Silver directory if it does not exist
     SILVER_PARQUET_PATH.mkdir(parents=True, exist_ok=True)
 
-    # Définir le chemin du fichier Silver
+    # Define the Silver file path
     parquet_file = SILVER_PARQUET_PATH / "sellers.parquet"
 
-    # Enregistrer le DataFrame nettoyé
+    # Save the cleaned DataFrame
     df_sellers.to_parquet(parquet_file, index=False)
 
 

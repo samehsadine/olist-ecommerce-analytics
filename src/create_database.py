@@ -6,7 +6,7 @@ from src.config import SQL_PATH
 def create_database():
 
 
-    # Connexion à master pour créer la base
+    # Connect to master to create the database
     connection = get_sql_connection(
         database="master",
         autocommit=True

@@ -1,26 +1,26 @@
-# Manipulation et analyse des données
+# Data manipulation and analysis
 pandas
 numpy
 
-# Lecture et écriture des fichiers Parquet
+# Reading and writing Parquet files
 pyarrow
 
-# Connexion à SQL Server
+# SQL Server connection
 sqlalchemy
 pyodbc
 
-# Exploration et visualisation
+# Exploration and visualization
 matplotlib
 seaborn
 
-# Notebooks Jupyter
+# Jupyter notebooks
 jupyterlab
 ipykernel
 
-# Gestion des variables d'environnement
+# Environment variable management
 python-dotenv
 
-# Tests et validation des données
+# Testing and data validation
 pytest
 
 sqlalchemy

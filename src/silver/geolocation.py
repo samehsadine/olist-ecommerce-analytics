@@ -8,21 +8,21 @@ def process_silver_geolocation():
             BRONZE_PARQUET_PATH / "olist_geolocation_dataset.parquet"
     )
 
-    # Convertir le code postal en chaîne de 5 caractères
+    # Convert the postal code to a 5-character string
     df_geolocation["geolocation_zip_code_prefix"] = (
     df_geolocation["geolocation_zip_code_prefix"]
     .astype("string")
     .str.zfill(5)
     )
 
-    lignes_avant = len(df_geolocation)
+    rows_before = len(df_geolocation)
     df_geolocation = df_geolocation.drop_duplicates()
-    lignes_apres = len(df_geolocation)
+    rows_after = len(df_geolocation)
 
-    doublons_supprimes = lignes_avant - lignes_apres
+    duplicates_removed = rows_before - rows_after
 
-    print("Doublons supprimés :", doublons_supprimes)
-    print("Nombre de lignes restantes :", lignes_apres)
+    print("Doublons supprimés :", duplicates_removed)
+    print("Nombre de lignes restantes :", rows_after)
 
     df_geolocation["anomalie_geolocation"] = (
     ~df_geolocation["geolocation_lat"].between(-34, 6)
@@ -30,19 +30,19 @@ def process_silver_geolocation():
     ~df_geolocation["geolocation_lng"].between(-74, -34)
 )
 
-# Compter les coordonnées suspectes
+# Count suspicious coordinates
     print(
         "Coordonnées suspectes :",
         df_geolocation["anomalie_geolocation"].sum()
     )
 
-    # Créer le dossier Silver s'il n'existe pas
+    # Create the Silver directory if it does not exist
     SILVER_PARQUET_PATH.mkdir(parents=True, exist_ok=True)
 
-    # Définir le chemin du fichier Silver
+    # Define the Silver file path
     parquet_file = SILVER_PARQUET_PATH / "geolocation.parquet"
 
-    # Enregistrer les données nettoyées
+    # Save the cleaned data
     df_geolocation.to_parquet(parquet_file, index=False)
 
     print(f"Fichier Silver enregistré : {parquet_file}")

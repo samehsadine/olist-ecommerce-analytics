@@ -5,22 +5,22 @@ from src.config import PROJECT_ROOT
 
 def create_silver_tables():
 
-    # Chemin du script SQL contenant toutes les tables Silver
+    # Path to the SQL script containing all Silver tables
     sql_path = PROJECT_ROOT / "sql" / "02_create_silver_tables.sql"
 
-    # Connexion à SQL Server
+    # Connect to SQL Server
     connection = get_sql_connection(autocommit=True)
 
     try:
-        # Lire le fichier SQL
+        # Read the SQL file
         with sql_path.open("r", encoding="utf-8") as file:
             sql_script = file.read()
 
-        # Créer le curseur
+        # Create the cursor
         cursor = connection.cursor()
 
         try:
-            # Exécuter le script SQL
+            # Execute the SQL script
             cursor.execute(sql_script)
 
             print("Tables Silver créées ou déjà existantes !")
